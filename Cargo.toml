@@ -9,8 +9,8 @@ license = "MIT"
 keywords = ["sequential-generator", "sequential", "generator", "rust"]
 
 [features]
-default = ["dep:lazy_static"]
+default = ["lazy_static/spin"]
 no_std = ["lazy_static/spin_no_std"] # Enables the use of the crate without the standard library.
 
 [dependencies]
-lazy_static = { version = "1.5.0", optional = true }
+lazy_static = { version = "1.5.0" }
