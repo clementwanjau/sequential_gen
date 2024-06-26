@@ -4,8 +4,7 @@
 
 [![Crates.io](https://img.shields.io/crates/v/sequential_gen)](https://crates.io/crates/sequential_gen)
 [![Docs.rs](https://docs.rs/sequential_gen/badge.svg)](https://docs.rs/sequential_gen)
-[![License](https://img.shields.io/crates/l/sequential_gen)](
-https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A simple crate to generate sequential ids in Rust. This crate is useful when you need to generate sequential ids for
 your data structures.
