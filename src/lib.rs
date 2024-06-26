@@ -8,6 +8,14 @@
 //! The crate provides a `Generator` trait that you can implement to create your own generator. The crate also
 //! provides a `SimpleGenerator` that you can use out of the box.
 //!
+//! The crate is `no_std` compatible. To use the crate in a `no_std` environment, you need to disable the default
+//! features and enable the `no_std` feature in your `Cargo.toml`.
+//!
+//! ```toml
+//! [dependencies]
+//! sequential-gen = { version = "0.1", default-features = false, features = ["no_std"] }
+//! ```
+//!
 //! ## Usage
 //!
 //! ```rust
