@@ -69,7 +69,7 @@ where
     /// # use sequential_gen::prelude::*;
     ///
     /// // Create a new simple generator with a step of 1.
-    /// let generator = SimpleGenerator::new(1);
+    /// let generator = SimpleGenerator::new(1usize);
     /// ```
     pub fn new(step: T) -> Self {
         Self { step }
