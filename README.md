@@ -1,6 +1,6 @@
 # Sequential_Gen
 
-[![Build Status](https://github.com/clementwanjau/sequential-gen/actions/workflows/build.yaml/badge.svg)](https://github.com/clementwanjau/sequential-gen/actions/workflows/build.yaml)
+[![Build Status](https://github.com/clementwanjau/sequential_gen/actions/workflows/build.yaml/badge.svg)](https://github.com/clementwanjau/sequential_gen/actions/workflows/build.yaml)
 
 [![Crates.io](https://img.shields.io/crates/v/sequential_gen)](https://crates.io/crates/sequential_gen)
 [![Docs.rs](https://docs.rs/sequential_gen/badge.svg)](https://docs.rs/sequential_gen)
@@ -59,4 +59,4 @@ The usage of the crate remains the same.
 
 ## License
 
-This project is licensed under the MIT license.
+This project is licensed under the [MIT](LICENSE) license.
