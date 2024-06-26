@@ -10,7 +10,7 @@ keywords = ["sequential-generator", "sequential", "generator", "rust"]
 
 [features]
 default = ["std"]
-std = []
+std = [] # Enables the use of std library
 
 [dependencies]
 thiserror = "1.0.61"
