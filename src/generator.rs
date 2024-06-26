@@ -1,5 +1,4 @@
-use std::ops::AddAssign;
-use std::sync::{Arc, Mutex};
+use std::sync::atomic::AtomicUsize;
 
 use lazy_static::lazy_static;
 
@@ -16,14 +15,14 @@ pub trait Generator<T> {
 /// An internal counter that keeps track of the current value.
 #[derive(Debug)]
 struct SequenceGenerator {
-    value: Arc<Mutex<usize>>,
+    value: AtomicUsize,
 }
 
 impl Default for SequenceGenerator {
     /// Creates a new sequence generator with a default value of 0.
     fn default() -> Self {
         Self {
-            value: Arc::new(Mutex::new(0)),
+            value: AtomicUsize::new(0),
         }
     }
 }
@@ -89,9 +88,10 @@ where
     /// # Errors
     /// An error will be returned if the value cannot be locked.
     fn generate(&self) -> Result<T, crate::error::Error> {
-        let mut val = GENERATOR.value.lock()?;
-        val.add_assign(self.step.into());
-        Ok(T::from(*val))
+        let val = GENERATOR
+            .value
+            .fetch_add(self.step.into(), std::sync::atomic::Ordering::SeqCst);
+        Ok(T::from(val))
     }
 }
 
