@@ -17,7 +17,7 @@
 //! use sequential_gen::prelude::*;
 //!
 //! lazy_static! {
-//!    static ref GENERATOR: SimpleGenerator<usize> = SimpleGenerator::new(1);
+//!    static ref GENERATOR: SimpleGenerator<usize> = SimpleGenerator::new(1usize);
 //! }
 //!
 //! fn main() -> Result<(), Error> {
