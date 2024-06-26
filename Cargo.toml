@@ -13,3 +13,5 @@ default = ["std"]
 std = []
 
 [dependencies]
+thiserror = "1.0.61"
+lazy_static = "1.5.0"
