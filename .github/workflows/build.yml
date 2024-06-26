@@ -1,0 +1,17 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-on-ubuntu-latest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install cargo-hack
+        uses: taiki-e/install-action@cargo-hack
+      - name: Cargo Hack Check
+        run: cargo hack check --feature-powerset --lib --tests
+      - name: Cargo Hack Test
+        run: cargo hack test --feature-powerset
