@@ -20,17 +20,34 @@
 //!    static ref GENERATOR: SimpleGenerator<usize> = SimpleGenerator::new(1usize);
 //! }
 //!
-//! fn main() -> Result<(), Error> {
-//!   let id = GENERATOR.generate()?;
+//! fn main() {
+//!   let id = GENERATOR.generate();
 //!   // Use your ID
-//!   Ok(())
 //! }
 //! ```
 
-mod error;
+#![cfg_attr(feature = "no_std", no_std)]
+
+mod lib {
+	pub use self::core::clone::Clone;
+	pub use self::core::convert::{From, Into};
+	pub use self::core::default::Default;
+	pub use self::core::fmt::Debug;
+	pub use self::core::marker::Copy;
+	pub use self::core::sync::atomic::{AtomicUsize, Ordering};
+	pub use self::core::usize;
+
+	mod core {
+		#[cfg(feature = "no_std")]
+		pub use core::*;
+
+		#[cfg(not(feature = "no_std"))]
+		pub use std::*;
+	}
+}
+
 mod generator;
 
 pub mod prelude {
-	pub use crate::error::Error;
 	pub use crate::generator::{Generator, SimpleGenerator};
 }

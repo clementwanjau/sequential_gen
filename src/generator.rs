@@ -1,6 +1,6 @@
-use std::sync::atomic::AtomicUsize;
-
 use lazy_static::lazy_static;
+
+use crate::lib::*;
 
 lazy_static! {
     static ref GENERATOR: SequenceGenerator = SequenceGenerator::default();
@@ -9,7 +9,7 @@ lazy_static! {
 /// A trait for generating unique IDs.
 pub trait Generator<T> {
     /// Generates a new unique ID.
-    fn generate(&self) -> Result<T, crate::error::Error>;
+    fn generate(&self) -> T;
 }
 
 /// An internal counter that keeps track of the current value.
@@ -36,8 +36,8 @@ impl Default for SequenceGenerator {
 ///
 /// let generator = SimpleGenerator::new(1);
 ///
-/// assert_eq!(generator.generate().unwrap(), 1);
-/// assert_eq!(generator.generate().unwrap(), 2);
+/// assert_eq!(generator.generate(), 1);
+/// assert_eq!(generator.generate(), 2);
 /// ```
 ///
 #[derive(Clone, Debug, Default)]
@@ -87,11 +87,12 @@ where
     ///
     /// # Errors
     /// An error will be returned if the value cannot be locked.
-    fn generate(&self) -> Result<T, crate::error::Error> {
-        let val = GENERATOR
+    fn generate(&self) -> T {
+        let _ = GENERATOR
             .value
-            .fetch_add(self.step.into(), std::sync::atomic::Ordering::SeqCst);
-        Ok(T::from(val))
+            .fetch_add(self.step.into(), Ordering::SeqCst);
+        let val = GENERATOR.value.load(Ordering::SeqCst);
+        T::from(val)
     }
 }
 
@@ -100,10 +101,9 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_simple_generator() -> Result<(), crate::error::Error> {
+    fn test_simple_generator() {
         let generator = SimpleGenerator::new(1);
-        assert_eq!(generator.generate()?, 1);
-        assert_eq!(generator.generate()?, 2);
-        Ok(())
+        assert_eq!(generator.generate(), 1);
+        assert_eq!(generator.generate(), 2);
     }
 }

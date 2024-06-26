@@ -38,12 +38,24 @@ lazy_static! {
     static ref GENERATOR: SimpleGenerator<usize> = SimpleGenerator::new(1usize);
 }
 
-fn main() -> Result<(), Error> {
-	let id = GENERATOR.generate()?;
+fn main() {
+	let id = GENERATOR.generate();
 	// Use your ID
-	Ok(())
 }
  ```
+
+## `no_std` Support
+
+The crate is `no_std` compatible, but you need to disable the default features in your `Cargo.toml` file. You then need
+to
+enable the `no_std` feature:
+
+```toml
+[dependencies]
+sequential_gen = { version = "0.1", default-features = false, features = ["no_std"] }
+```
+
+The usage of the crate remains the same.
 
 ## License
 
