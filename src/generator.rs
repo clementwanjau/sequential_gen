@@ -1,3 +1,5 @@
+use core::ops::Add;
+
 use lazy_static::lazy_static;
 
 use crate::lib::*;
@@ -10,6 +12,8 @@ lazy_static! {
 pub trait Generator<T> {
     /// Generates a new unique ID.
     fn generate(&self) -> T;
+
+    fn with_offset(&self, offset: T) -> T;
 }
 
 /// An internal counter that keeps track of the current value.
@@ -77,22 +81,35 @@ where
 
 impl<T> Generator<T> for SimpleGenerator<T>
 where
-    T: Into<usize> + Copy + Default + From<usize>,
+    T: Into<usize> + Copy + Default + From<usize> + Add<Output = T>,
 {
     /// Generates a new value by incrementing the current value by the step.
     ///
     /// # Returns
     ///
     /// A new value.
-    ///
-    /// # Errors
-    /// An error will be returned if the value cannot be locked.
     fn generate(&self) -> T {
         let _ = GENERATOR
             .value
             .fetch_add(self.step.into(), Ordering::SeqCst);
         let val = GENERATOR.value.load(Ordering::SeqCst);
         T::from(val)
+    }
+
+    /// Generates a new value by incrementing the current value by the step and adding an offset.
+    ///
+    /// This is useful when you want to generate a value that is offset by a certain amount.
+    ///
+    /// # Arguments
+    ///
+    /// * `offset` - The offset to add to the generated value.
+    ///
+    /// # Returns
+    ///
+    /// A new value.
+    fn with_offset(&self, offset: T) -> T {
+        let value = self.generate();
+        value + offset
     }
 }
 

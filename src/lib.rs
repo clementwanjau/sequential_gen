@@ -48,7 +48,6 @@ mod lib {
 	mod core {
 		#[cfg(feature = "no_std")]
 		pub use core::*;
-
 		#[cfg(not(feature = "no_std"))]
 		pub use std::*;
 	}
@@ -56,6 +55,11 @@ mod lib {
 
 mod generator;
 
+#[cfg(not(feature = "no_std"))]
+mod epoch_generator;
+
 pub mod prelude {
+	#[cfg(not(feature = "no_std"))]
+	pub use crate::epoch_generator::EpochBasedGenerator;
 	pub use crate::generator::{Generator, SimpleGenerator};
 }
