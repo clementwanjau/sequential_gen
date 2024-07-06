@@ -2,38 +2,28 @@ default:
   image: rust:1.71.0
 
 stages:
-  - setup
   - source
   - build
   - test
   - deploy
 
-setup-job:
-  stage: setup
-  script:
-    - rustup component add clippy
-    - cargo install cargo-hack
-
 lint-job:
   stage: source
-  needs:
-    - setup-job
   script:
+    - rustup component add clippy
     - cargo clippy -- -Dwarnings
 
 build-job:
   stage: build
-  needs:
-    - setup-job
   script:
+    - cargo install cargo-hack
     - cargo hack check --feature-powerset --mutually-exclusive-features no_std,uuid --lib --tests
 
 test-job:
   stage: test
   allow_failure: false
-  needs:
-    - setup-job
   script:
+    - cargo install cargo-hack
     - cargo hack test --feature-powerset --mutually-exclusive-features no_std,uuid
 
 deploy:
