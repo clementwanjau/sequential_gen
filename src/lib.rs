@@ -25,7 +25,7 @@
 //! use sequential_gen::prelude::*;
 //!
 //! lazy_static! {
-//!    static ref GENERATOR: SimpleGenerator<usize> = SimpleGenerator::new(1usize);
+//!    static ref GENERATOR: SimpleGenerator<u128> = SimpleGenerator::new(1u128);
 //! }
 //!
 //! fn main() {
@@ -36,12 +36,16 @@
 
 #![cfg_attr(feature = "no_std", no_std)]
 
+#[cfg(all(feature = "no_std", feature = "uuid"))]
+compile_error!("Cannot enable both `no_std` and `uuid` features at the same time.");
+
 mod lib {
 	pub use self::core::clone::Clone;
 	pub use self::core::convert::{From, Into};
 	pub use self::core::default::Default;
 	pub use self::core::fmt::Debug;
 	pub use self::core::marker::Copy;
+	pub use self::core::ops::Add;
 	pub use self::core::sync::atomic::{AtomicUsize, Ordering};
 	pub use self::core::usize;
 
@@ -55,11 +59,10 @@ mod lib {
 
 mod generator;
 
-#[cfg(not(feature = "no_std"))]
-mod epoch_generator;
-
 pub mod prelude {
+	pub use crate::generator::{Generator, simple::SimpleGenerator};
 	#[cfg(not(feature = "no_std"))]
-	pub use crate::epoch_generator::EpochBasedGenerator;
-	pub use crate::generator::{Generator, SimpleGenerator};
+		pub use crate::generator::unix_epoch::EpochBasedGenerator;
+	#[cfg(feature = "uuid")]
+	pub use crate::generator::uuid::UuidGenerator;
 }

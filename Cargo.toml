@@ -11,6 +11,8 @@ keywords = ["sequential-generator", "sequential", "generator", "rust"]
 [features]
 default = ["lazy_static/spin"]
 no_std = ["lazy_static/spin_no_std"] # Enables the use of the crate without the standard library.
+uuid = ["uuid/default"]
 
 [dependencies]
 lazy_static = { version = "1.5.0" }
+uuid = { version = "1.9.1", default-features = false, features = ["v7", "serde"] }
