@@ -1,5 +1,6 @@
-use std::ops::Add;
+use std::thread::sleep;
 
+use crate::lib::Add;
 use crate::prelude::Generator;
 
 /// A unique ID generator that generates IDs based on the current epoch time.
@@ -33,7 +34,8 @@ impl Generator<u128> for EpochBasedGenerator {
     /// A new unique ID.
     fn generate(&self) -> u128 {
         use std::time::SystemTime;
-
+        sleep(std::time::Duration::from_micros(10));
+        // Get the epoch
         SystemTime::now()
             .duration_since(SystemTime::UNIX_EPOCH)
             .unwrap()

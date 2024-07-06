@@ -1,19 +1,10 @@
-use core::ops::Add;
-
 use lazy_static::lazy_static;
 
 use crate::lib::*;
+use crate::prelude::Generator;
 
 lazy_static! {
     static ref GENERATOR: SequenceGenerator = SequenceGenerator::default();
-}
-
-/// A trait for generating unique IDs.
-pub trait Generator<T> {
-    /// Generates a new unique ID.
-    fn generate(&self) -> T;
-
-    fn with_offset(&self, offset: T) -> T;
 }
 
 /// An internal counter that keeps track of the current value.
@@ -47,14 +38,14 @@ impl Default for SequenceGenerator {
 #[derive(Clone, Debug, Default)]
 pub struct SimpleGenerator<T>
 where
-    T: Into<usize> + Copy,
+    T: Into<u128> + Copy,
 {
     step: T,
 }
 
 impl<T> SimpleGenerator<T>
 where
-    T: Into<usize> + Copy,
+    T: Into<u128> + Copy,
 {
     /// Creates a new simple generator with the specified step.
     ///
@@ -72,7 +63,7 @@ where
     /// # use sequential_gen::prelude::*;
     ///
     /// // Create a new simple generator with a step of 1.
-    /// let generator = SimpleGenerator::new(1usize);
+    /// let generator = SimpleGenerator::new(1u128);
     /// ```
     pub fn new(step: T) -> Self {
         Self { step }
@@ -81,7 +72,7 @@ where
 
 impl<T> Generator<T> for SimpleGenerator<T>
 where
-    T: Into<usize> + Copy + Default + From<usize> + Add<Output = T>,
+    T: Into<u128> + Copy + Default + From<u128> + Add<Output = T>,
 {
     /// Generates a new value by incrementing the current value by the step.
     ///
@@ -91,9 +82,9 @@ where
     fn generate(&self) -> T {
         let _ = GENERATOR
             .value
-            .fetch_add(self.step.into(), Ordering::SeqCst);
+            .fetch_add(self.step.into() as usize, Ordering::SeqCst);
         let val = GENERATOR.value.load(Ordering::SeqCst);
-        T::from(val)
+        T::from(val as u128)
     }
 
     /// Generates a new value by incrementing the current value by the step and adding an offset.
