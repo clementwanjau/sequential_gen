@@ -33,6 +33,12 @@
 //!   // Use your ID
 //! }
 //! ```
+//!
+//! ## Features
+//! The following features are available:
+//! - `default`: Enables the standard library.
+//! - `no_std`: Disables the standard library.
+//! - `uuid`: Enables support for generating UUIDs. This feature is not available in a `no_std` environment.
 
 #![cfg_attr(feature = "no_std", no_std)]
 
