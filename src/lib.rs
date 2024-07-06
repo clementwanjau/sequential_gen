@@ -53,7 +53,6 @@ mod lib {
 	pub use self::core::marker::Copy;
 	pub use self::core::ops::Add;
 	pub use self::core::sync::atomic::{AtomicUsize, Ordering};
-	pub use self::core::usize;
 
 	mod core {
 		#[cfg(feature = "no_std")]
