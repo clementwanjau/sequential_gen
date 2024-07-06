@@ -35,4 +35,4 @@ deploy:
       when: on_success
     - when: never
   script:
-    - cargo publish
+    - cargo publish --token $CARGO_REGISTRY_TOKEN
