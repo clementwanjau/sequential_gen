@@ -8,14 +8,11 @@ default:
       - .cargo/registry/cache
       - target/debug/deps
   before_script:
-    - rustup self update
-    - rustup update
     - rustc --version                               # Print version of Rust compiler
-    - rustup component add rustfmt
-    - rustup component add clippy
 
 stages:
   - source
+  - update dependencies
   - build
   - test
   - deploy
@@ -23,6 +20,7 @@ stages:
 format-job:
   stage: source
   script:
+    - rustup component add rustfmt
     - cargo fmt
 
 fix-job:
@@ -33,10 +31,11 @@ fix-job:
 lint-job:
   stage: source
   script:
+    - rustup component add clippy
     - cargo clippy -- -Dwarnings
 
 update-dependencies-job:
-  stage: build
+  stage: update dependencies
   script:
     - cargo update
 
@@ -66,4 +65,4 @@ deploy:
   release:
     name: $CI_COMMIT_TAG
     tag_name: $CI_COMMIT_TAG
-    description: $CI_COMMIT_TAG_MESSAGE
+    description: './CHANGELOG.md'
