@@ -1,10 +1,10 @@
-# Sequential_Gen
-
+![Poster](./SequentialGenPoster.png)
+ 
 [![Build Status](https://github.com/clementwanjau/sequential_gen/actions/workflows/build.yaml/badge.svg)](https://github.com/clementwanjau/sequential_gen/actions/workflows/build.yaml)
-
 [![Crates.io](https://img.shields.io/crates/v/sequential_gen)](https://crates.io/crates/sequential_gen)
 [![Docs.rs](https://docs.rs/sequential_gen/badge.svg)](https://docs.rs/sequential_gen)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Rust](https://img.shields.io/badge/rust-1.71+-orange.svg)](https://www.rust-lang.org)
 
 A simple crate to generate sequential ids in Rust. This crate is useful when you need to generate sequential ids for
 your data structures.
