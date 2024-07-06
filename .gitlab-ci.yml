@@ -1,0 +1,29 @@
+default:
+  image: rust:1.71.0
+
+stages:
+  - setup
+  - source
+  - build
+  - test
+
+setup-tools:
+  stage: setup
+  script:
+    - rustup component add clippy
+    - cargo install cargo-hack
+
+lint-job:
+  stage: source
+  script:
+    - cargo clippy -- -Dwarnings
+
+build-job:
+  stage: build
+  script:
+    - cargo hack check --feature-powerset --mutually-exclusive-features no_std,uuid --lib --tests
+
+test-job:
+  stage: test
+  script:
+    - cargo hack test --feature-powerset --mutually-exclusive-features no_std,uuid
