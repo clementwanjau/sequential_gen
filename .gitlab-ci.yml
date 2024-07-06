@@ -36,5 +36,3 @@ deploy:
     - when: never
   script:
     - cargo publish
-  variables:
-    CARGO_REGISTRY_TOKEN: $CARGO_REGISTRY_TOKEN
