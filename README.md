@@ -43,6 +43,9 @@ fn main() {
 }
  ```
 
+> **Note:** You can also create your own generator by implementing the `Generator` trait if you need more control over
+> the generation process or if the provided generators do not meet your requirements.
+
 ## `no_std` Support
 
 The crate is `no_std` compatible, but you need to disable the default features in your `Cargo.toml` file. You then need
@@ -53,6 +56,10 @@ enable the `no_std` feature:
 [dependencies]
 sequential_gen = { version = "0.1", default-features = false, features = ["no_std"] }
 ```
+
+> **Note:**
+> When working in a `no_std` environment, you are confined to using the `SimpleGenerator` struct. In most cases this
+> will suffice. The other generators require the `std` library.
 
 The usage of the crate remains the same.
 
