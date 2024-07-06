@@ -1,5 +1,18 @@
 default:
-  image: rust:1.71.0
+  image: rust:latest
+  cache: # Cache the following directories
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      - .cargo/bin
+      - .cargo/registry/index
+      - .cargo/registry/cache
+      - target/debug/deps
+  before_script:
+    - rustup self update
+    - rustup update
+    - rustc --version                               # Print version of Rust compiler
+    - rustup component add rustfmt
+    - rustup component add clippy
 
 stages:
   - source
@@ -7,11 +20,25 @@ stages:
   - test
   - deploy
 
+format-job:
+  stage: source
+  script:
+    - cargo fmt
+
+fix-job:
+  stage: source
+  script:
+    - cargo fix
+
 lint-job:
   stage: source
   script:
-    - rustup component add clippy
     - cargo clippy -- -Dwarnings
+
+update-dependencies-job:
+  stage: build
+  script:
+    - cargo update
 
 build-job:
   stage: build
